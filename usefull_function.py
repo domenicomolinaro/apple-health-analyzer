@@ -74,8 +74,8 @@ def add_corresponding_day_name(date):
 def get_data_from_to(df, start, end):
     start = pd.to_datetime(start, utc=True)
     end = pd.to_datetime(end, utc=True)
-    data = df[df["creationDate"] >= start]
-    data = data[data["creationDate"] <= end]
+    data = df[df["Date_only"] >= start]
+    data = data[data["Date_only"] <= end]
     return data
 
 # Add missing days in weekly database

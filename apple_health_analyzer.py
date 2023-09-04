@@ -3,7 +3,6 @@ import pandas as pd
 import datetime as dt
 import numpy as np
 import re
-from pt2sheets import *
 from usefull_function import *
 from apple2sheets import *
 import calendar    
@@ -37,7 +36,7 @@ def apple_health_analyzer(tree, sunday_date,n_of_week):
     record_data['Date_only'] = record_data['creationDate'].dt.date
     #record_data['type'].unique()
 
-    record_data['Date_only'] = pd.to_datetime(record_data['Date_only'])
+    record_data['Date_only'] = pd.to_datetime(record_data['Date_only'],utc=True)
     record_data['Corresponding_Day'] = record_data['Date_only'].apply(add_corresponding_day_name)
 
 
@@ -56,7 +55,7 @@ def apple_health_analyzer(tree, sunday_date,n_of_week):
     # convert string to numeric   
     workout_data['duration'] = pd.to_numeric(workout_data['duration'])
     workout_data['Date_only'] = workout_data['creationDate'].dt.date
-    workout_data['Date_only'] = pd.to_datetime(workout_data['Date_only'])
+    workout_data['Date_only'] = pd.to_datetime(workout_data['Date_only'], utc = True)
     workout_data['Corresponding_Day'] = workout_data['Date_only'].apply(add_corresponding_day_name)
 
     
@@ -87,7 +86,7 @@ def apple_health_analyzer(tree, sunday_date,n_of_week):
     nuovo_valore = diet_data.loc[diet_data['type'] == 'Sodium', 'value'] / 1000
     diet_data.loc[diet_data['type'] == 'Sodium', 'value'] = nuovo_valore
     diet_data.loc[diet_data['type'] == 'Sodium', 'unit'] = 'g'
-    diet_data = diet_data.groupby(['type', 'Date_only','unit','creationDate']).agg({'value': 'sum'}).reset_index().to_dict(orient='records')
+    diet_data = diet_data.groupby(['type', 'Date_only']).agg({'value': 'sum'}).reset_index().to_dict(orient='records')
     diet_data = pd.DataFrame(diet_data)
     diet_data['Date_only'] = pd.to_datetime(diet_data['Date_only'])
     diet_data['Corresponding_Day'] = diet_data['Date_only'].apply(add_corresponding_day_name)
@@ -95,7 +94,7 @@ def apple_health_analyzer(tree, sunday_date,n_of_week):
 
     df = diet_data
     carbo_data = df[df["type"] == "Carbohydrates"]
-    carbo_data = carbo_data[['value','Corresponding_Day','creationDate','Date_only']]
+    carbo_data = carbo_data[['value','Date_only']]
     carbo_data.rename(columns={'value': 'carbo'}, inplace=True)
     carbo_data = carbo_data.reset_index(drop=True)
 

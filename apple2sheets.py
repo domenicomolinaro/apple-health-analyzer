@@ -12,7 +12,7 @@ def apple_health_2_google_sheets(df, kind_of_database, month, n_of_week):
     nome_foglio = 'apple_health_analysis'
 
     # Carica il DataFrame nel foglio di lavoro
-    credentials_file ='/Users/domenicomolinaro/Desktop/apple_health_export/apple-heatlh-analyser-b0b71acfa62b.json'
+    credentials_file ='apple-heatlh-analyser-b0b71acfa62b.json'
 
     # Autenticazione con le credenziali del tuo progetto Google Cloud
     scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
@@ -191,7 +191,7 @@ def apple_health_2_google_sheets(df, kind_of_database, month, n_of_week):
     ################################################
     ## ADDING FIGURE
     ################################################
-    gc = pygsheets.authorize(service_file='/Users/domenicomolinaro/Desktop/apple_health_export/apple-heatlh-analyser-b0b71acfa62b.json')
+    gc = pygsheets.authorize(service_file='apple-heatlh-analyser-b0b71acfa62b.json')
     sh = gc.open(nome_foglio)
     worksheet = sh.worksheet_by_title(month)
     
